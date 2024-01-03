@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <Description>Loggers for the Microsoft.Extensions.Logging framework wrapping the xUnit.net ITestOutputHelper.</Description>
+        <PackageTags>xunit, test, testing, tests, runner, console, logger, logging, output, helper, itestoutputhelper, dependency, injection, di, ioc, microsoft, extensions, frank, haugen</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Frank.PulseFlow.Logging" Version="1.5.0" />
+        <PackageReference Include="Frank.Reflection" Version="1.0.0" />
+        <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+        <PackageReference Include="xunit.extensibility.core" Version="2.6.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Frank.Testing.TestOutputExtensions\Frank.Testing.TestOutputExtensions.csproj" />
+    </ItemGroup>
+</Project>

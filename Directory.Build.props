@@ -20,9 +20,9 @@
         <PackageIcon>icon.png</PackageIcon>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageProjectUrl>https://www.github.com/frankhaugen/Frank.TODO</PackageProjectUrl>
+        <PackageProjectUrl>https://www.github.com/frankhaugen/Frank.Testing.Logging</PackageProjectUrl>
 
-        <RepositoryUrl>https://www.github.com/frankhaugen/Frank.TODO</RepositoryUrl>
+        <RepositoryUrl>https://www.github.com/frankhaugen/Frank.Testing.Logging</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
     </PropertyGroup>
 
