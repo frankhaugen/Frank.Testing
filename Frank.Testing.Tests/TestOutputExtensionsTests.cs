@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 
 namespace Frank.Testing.Tests;
 
-[TestSubject(typeof(TestOutputExtensions))]
+[TestSubject(typeof(TestOutputJsonExtensions))]
 public class TestOutputExtensionsTests
 {
     private readonly ITestOutputHelper _outputHelper;

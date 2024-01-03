@@ -50,7 +50,20 @@ public class MyTestClass
     [Fact]
     public void MyTestMethod()
     {
-        _outputHelper.WriteLine(new { MyProperty = "MyValue" });
+        _outputHelper.WriteLine(new { MyProperty = "MyValue" }); // Writes to test output as JSON: {"MyProperty":"MyValue"}
+        _outputHelper.WriteJson(new { MyProperty = "MyValue" }); // Writes to test output as JSON: {"MyProperty":"MyValue"}
+    }
+    
+    [Fact]
+    public void MyTestMethod2()
+    {
+        _outputHelper.WriteCSharp(new { MyProperty = "MyValue" }); // Writes to test output as C#: var anonymousType = new { MyProperty = "MyValue" };
+    }
+    
+    [Fact]
+    public void MyTestMethod3()
+    {
+        _outputHelper.WriteXml(new MyClass() { Name = "MyName" }); // Writes to test output as XML: <MyClass><Name>MyName</Name></MyClass>
     }
 }
 ```

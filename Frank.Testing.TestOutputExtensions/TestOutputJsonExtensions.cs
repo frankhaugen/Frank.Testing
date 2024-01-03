@@ -1,11 +1,9 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using Xunit.Abstractions;
+namespace Xunit.Abstractions;
 
-namespace Xunit;
-
-public static class TestOutputExtensions
+public static class TestOutputJsonExtensions
 {
     /// <summary>
     /// Writes the specified object's string representation followed by the current line terminator to the output.

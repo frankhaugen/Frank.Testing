@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>Xunit</RootNamespace>
+        <RootNamespace>Xunit.Abstractions</RootNamespace>
         <Description>Extends ITestOutputHelper to allow output of a generic type using a serializer.</Description>
-        <PackageTags>test, xunit, output, helper, serializer, json, console</PackageTags>
+        <PackageTags>test, testing, extensions, xunit, output, helper, serializer, json, xml, csharp, dump, var, dumpvar, vardump, xmlserializer, jsonserializer, testoutputhelper, testoutput, outputhelper, ITestOutputHelper, abstractions, xunit.abstractions, xunit.abstractions.extensions, xunit.extensions.ordering</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="FluentAssertions" Version="6.12.0" />
+      <PackageReference Include="VarDump" Version="0.2.11" />
       <PackageReference Include="xunit.abstractions" Version="2.0.3" />
       <PackageReference Include="Xunit.Extensions.Ordering" Version="1.4.5" />
     </ItemGroup>

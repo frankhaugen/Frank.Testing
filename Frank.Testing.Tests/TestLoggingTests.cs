@@ -10,11 +10,11 @@ using Xunit.Abstractions;
 
 namespace Frank.Testing.Tests;
 
-public class UnitTest1
+public class TestLoggingTests
 {
     private readonly ITestOutputHelper _outputHelper;
 
-    public UnitTest1(ITestOutputHelper outputHelper)
+    public TestLoggingTests(ITestOutputHelper outputHelper)
     {
         _outputHelper = outputHelper;
     }
