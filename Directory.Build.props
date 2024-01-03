@@ -14,15 +14,15 @@
 
         <Authors>Frank R. Haugen</Authors>
         <PublisherName>Frank R. Haugen</PublisherName>
-        <Copyright>Copyright (c) 2023 Frank R. Haugen</Copyright>
+        <Copyright>Copyright (c) 2024 Frank R. Haugen</Copyright>
 
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageIcon>icon.png</PackageIcon>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageProjectUrl>https://www.github.com/frankhaugen/Frank.Testing.Logging</PackageProjectUrl>
+        <PackageProjectUrl>https://www.github.com/frankhaugen/Frank.Testing</PackageProjectUrl>
 
-        <RepositoryUrl>https://www.github.com/frankhaugen/Frank.Testing.Logging</RepositoryUrl>
+        <RepositoryUrl>https://www.github.com/frankhaugen/Frank.Testing</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
     </PropertyGroup>
 
