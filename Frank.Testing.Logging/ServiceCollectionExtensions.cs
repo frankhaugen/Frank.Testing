@@ -16,7 +16,7 @@ public static class ServiceCollectionExtensions
     /// <returns>The modified IServiceCollection with the test logging added.</returns>
     public static IServiceCollection AddTestLogging(this IServiceCollection services, ITestOutputHelper outputHelper, LogLevel logLevel = LogLevel.Debug)
     {
-        services.AddLogging(builder => builder.AddPulseFlowTestLoggingProvider());
+        services.AddLogging(builder => builder.AddPulseFlowTestLoggingProvider(outputHelper, logLevel));
         return services;
     }
 }
