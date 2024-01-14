@@ -1,8 +1,10 @@
-﻿using JetBrains.Annotations;
+﻿using Frank.Testing.Tests.TestingInfrastructure;
+
+using JetBrains.Annotations;
 
 using Xunit.Abstractions;
 
-namespace Frank.Testing.Tests;
+namespace Frank.Testing.Tests.TestOutputExtensionsTests;
 
 [TestSubject(typeof(TestOutputXmlExtensions))]
 public class TestOutputXmlExtensionsTests(ITestOutputHelper outputHelper)

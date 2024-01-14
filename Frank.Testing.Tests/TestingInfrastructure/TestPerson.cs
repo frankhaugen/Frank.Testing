@@ -1,4 +1,4 @@
-﻿namespace Frank.Testing.Tests;
+﻿namespace Frank.Testing.Tests.TestingInfrastructure;
 
 public class TestPerson
 {

@@ -2,7 +2,7 @@
 
 using Xunit.Abstractions;
 
-namespace Frank.Testing.Tests;
+namespace Frank.Testing.Tests.TestOutputExtensionsTests;
 
 [TestSubject(typeof(TestOutputJsonExtensions))]
 public class TestOutputExtensionsTests

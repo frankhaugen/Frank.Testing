@@ -10,11 +10,14 @@ namespace Frank.Testing.Logging;
 /// </summary>
 public class TestLoggingOutputFlow(ITestOutputHelper outputHelper) : IFlow
 {
-    public Task HandleAsync(IPulse pulse, CancellationToken cancellationToken)
+    public async Task HandleAsync(IPulse pulse, CancellationToken cancellationToken)
     {
-        outputHelper.WriteLine(pulse.ToString());
-        return Task.CompletedTask;
+        if (pulse is LogPulse logPulse)
+        {
+            outputHelper.WriteLine(logPulse.Message);
+            await Task.CompletedTask;
+        }
     }
 
-    public bool CanHandle(Type pulseType) => pulseType == typeof(LogPulse<>);
+    public bool CanHandle(Type pulseType) => pulseType == typeof(LogPulse);
 }
