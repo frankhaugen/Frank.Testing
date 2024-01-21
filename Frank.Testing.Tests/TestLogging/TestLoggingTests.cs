@@ -13,7 +13,7 @@ public class TestLoggingTests(ITestOutputHelper outputHelper)
     [Fact]
     public async Task Test1()
     {
-        var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+        var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(1));
         var host = CreateHostBuilder().Build();
         
         await host.RunAsync(cancellationTokenSource.Token);
@@ -40,7 +40,7 @@ public class TestLoggingTests(ITestOutputHelper outputHelper)
             while (!stoppingToken.IsCancellationRequested)
             {
                 logger.LogInformation("Hello from MyService");
-                await Task.Delay(1000, stoppingToken);
+                await Task.Delay(100, stoppingToken);
             }
         }
     }

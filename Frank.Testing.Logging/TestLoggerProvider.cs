@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Frank.Testing.Logging;
 
-public class TestLoggerProvider(IConduit conduit) : ILoggerProvider
+public class TestLoggerProvider(IConduit conduit, TestLoggerSettings settings) : ILoggerProvider
 {
     private readonly ConcurrentDictionary<string, ILogger> _loggers = new();
 
@@ -15,7 +15,7 @@ public class TestLoggerProvider(IConduit conduit) : ILoggerProvider
         if (_loggers.TryGetValue(categoryName, out var logger))
             return logger;
 
-        var newLogger = new PulseFlowTestLogger(conduit, categoryName);
+        var newLogger = new PulseFlowTestLogger(conduit, categoryName, settings);
         return _loggers.GetOrAdd(categoryName, newLogger);
     }
 

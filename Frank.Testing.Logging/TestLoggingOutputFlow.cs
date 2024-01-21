@@ -14,7 +14,7 @@ public class TestLoggingOutputFlow(ITestOutputHelper outputHelper) : IFlow
     {
         if (pulse is LogPulse logPulse)
         {
-            outputHelper.WriteLine(logPulse.Message);
+            outputHelper.WriteLine(logPulse.ToString());
             await Task.CompletedTask;
         }
     }

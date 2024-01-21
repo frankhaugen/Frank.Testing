@@ -27,7 +27,7 @@ public static class LoggingBuilderExtensions
             options.LogLevel = logLevel;
         });
         builder.Services.AddPulseFlow(flowBuilder => flowBuilder.AddFlow<TestLoggingOutputFlow>());
-        builder.Services.AddSingleton<ILoggerProvider>(provider => new TestLoggerProvider(provider.GetRequiredService<IConduit>()));
+        builder.Services.AddSingleton<ILoggerProvider>(provider => new TestLoggerProvider(provider.GetRequiredService<IConduit>(), provider.GetService<TestLoggerSettings>() ?? new TestLoggerSettings()));
         return builder;
     }
 }
