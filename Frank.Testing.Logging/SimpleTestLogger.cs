@@ -1,3 +1,4 @@
+using Frank.PulseFlow.Logging;
 using Frank.Reflection;
 
 using Microsoft.Extensions.Logging;
@@ -6,36 +7,22 @@ using Xunit.Abstractions;
 
 namespace Frank.Testing.Logging;
 
-public class SimpleTestLogger<T> : SimpleTestLogger, ILogger<T>
-{
-    public SimpleTestLogger(ITestOutputHelper outputHelper, LogLevel logLevel) : base(outputHelper, logLevel, typeof(T).GetDisplayName())
-    {
-    }
-}
+public class SimpleTestLogger<T>(ITestOutputHelper outputHelper, LogLevel logLevel) : SimpleTestLogger(outputHelper, logLevel, typeof(T).GetDisplayName()), ILogger<T>;
 
-public class SimpleTestLogger : ILogger
+public class SimpleTestLogger(ITestOutputHelper outputHelper, LogLevel level, string categoryName) : ILogger
 {
-    private readonly ITestOutputHelper _outputHelper;
-    private readonly LogLevel _logLevel;
-    private string _categoryName;
-    
-    public SimpleTestLogger(ITestOutputHelper outputHelper, LogLevel logLevel, string categoryName)
-    {
-        _outputHelper = outputHelper;
-        _logLevel = logLevel;
-        _categoryName = categoryName;
-    }
+    private string _categoryName = categoryName;
 
     public IDisposable? BeginScope<TState>(TState state) where TState : notnull 
-        => new TestLoggerScope<TState>(state);
+        => new PulseFlowLoggerScope<TState>(state);
 
-    public bool IsEnabled(LogLevel logLevel) => logLevel >= _logLevel;
+    public bool IsEnabled(LogLevel logLevel) => logLevel >= level;
 
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
     {
-        if (logLevel < _logLevel)
+        if (logLevel < level)
             return;
 
-        _outputHelper.WriteLine($"[{logLevel}]: {formatter(state, exception)}");
+        outputHelper.WriteLine(new LogPulse(logLevel, eventId, exception, _categoryName, formatter.Invoke(state, exception), state as IReadOnlyList<KeyValuePair<string, object?>>).ToString());
     }
 }

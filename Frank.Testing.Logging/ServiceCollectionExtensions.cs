@@ -16,9 +16,9 @@ public static class ServiceCollectionExtensions
     /// <returns>The modified IServiceCollection with the test logging added.</returns>
     public static IServiceCollection AddTestLogging(this IServiceCollection services, ITestOutputHelper outputHelper, LogLevel logLevel = LogLevel.Debug)
     {
-        services.Configure<TestLoggerSettings>(options =>
+        services.Configure<LoggerFilterOptions>(options =>
         {
-            options.LogLevel = logLevel;
+            options.MinLevel = logLevel;
         });
         services.AddLogging(builder => builder.AddPulseFlowTestLoggingProvider(outputHelper, logLevel));
         return services;

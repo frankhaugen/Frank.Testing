@@ -7,6 +7,8 @@ using Frank.Testing.Tests.TestingInfrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Xunit.Abstractions;
 
@@ -17,18 +19,11 @@ public class DbContextBuilderTests(ITestOutputHelper outputHelper)
     [Fact]
     public void Build_WithLoggerProvider_UsesLoggerProvider()
     {
-        var conduit = new TestConduit();
-        var loggerProvider = new TestLoggerProvider(conduit, new TestLoggerSettings());
         var dbContext = new DbContextBuilder<DbContext>()
-            .WithLoggerProvider(loggerProvider)
             .Build();
         dbContext.Database.EnsureCreated();
         dbContext.Database.ExecuteSqlRaw("SELECT 1");
         dbContext.Dispose();
-        
-        outputHelper.WriteJson(conduit.Logs);
-        // var log = conduit.Logs.Single();
-        // Assert.Equal("SELECT 1", log.Message);
     }
     
     [Fact]
@@ -55,9 +50,7 @@ public class DbContextBuilderTests(ITestOutputHelper outputHelper)
     public void Build_WithLoggerProviderAndService_UsesLoggerProviderAndService()
     {
         var conduit = new TestConduit();
-        var loggerProvider = new TestLoggerProvider(conduit, new TestLoggerSettings());
         var dbContext = new DbContextBuilder<TestDbContext>()
-            .WithLoggerProvider(loggerProvider)
             .WithSqliteConnectionString("Data Source=MyTestDatabase.db")
             .WithService<ITestService>(services => services.AddSingleton<ITestService, TestService>())
             .Build();
@@ -84,10 +77,8 @@ public class DbContextBuilderTests(ITestOutputHelper outputHelper)
     public void Build_WithLoggerProviderAndOptions_UsesLoggerProviderAndOptions()
     {
         var conduit = new TestConduit();
-        var loggerProvider = new TestLoggerProvider(conduit, new TestLoggerSettings());
         var dbContext = new DbContextBuilder<TestDbContext>()
             .WithSqliteConnectionString("Data Source=MyTestDatabase.db")
-            .WithLoggerProvider(loggerProvider)
             .Build();
         dbContext.Database.EnsureCreated();
         dbContext.Persons.Add(new TestPerson() { Name = "Frank" });

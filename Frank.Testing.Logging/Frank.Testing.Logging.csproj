@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Frank.PulseFlow.Logging" Version="1.6.0" />
+        <PackageReference Include="Frank.PulseFlow.Logging" Version="1.7.0" />
         <PackageReference Include="Frank.Reflection" Version="1.1.0" />
         <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />

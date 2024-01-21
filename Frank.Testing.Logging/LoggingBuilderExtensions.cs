@@ -22,12 +22,11 @@ public static class LoggingBuilderExtensions
         builder.ClearProviders();
         builder.AddPulseFlow();
         builder.Services.AddSingleton(outputHelper);
-        builder.Services.Configure<TestLoggerSettings>(options =>
+        builder.Services.Configure<LoggerFilterOptions>(options =>
         {
-            options.LogLevel = logLevel;
+            options.MinLevel = logLevel;
         });
         builder.Services.AddPulseFlow(flowBuilder => flowBuilder.AddFlow<TestLoggingOutputFlow>());
-        builder.Services.AddSingleton<ILoggerProvider>(provider => new TestLoggerProvider(provider.GetRequiredService<IConduit>(), provider.GetService<TestLoggerSettings>() ?? new TestLoggerSettings()));
         return builder;
     }
 }

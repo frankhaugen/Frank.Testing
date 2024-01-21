@@ -14,7 +14,7 @@ public class TestLoggingOutputFlow(ITestOutputHelper outputHelper) : IFlow
     {
         if (pulse is LogPulse logPulse)
         {
-            outputHelper.WriteLine(logPulse.ToString());
+            outputHelper.WriteLine($"{logPulse.Created:yyyy-MM-dd HH:mm:ss.fff} {logPulse}");
             await Task.CompletedTask;
         }
     }
