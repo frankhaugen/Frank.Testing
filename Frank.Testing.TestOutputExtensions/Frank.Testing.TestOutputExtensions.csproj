@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="VarDump" Version="0.2.14" />
+      <PackageReference Include="Frank.Reflection.Dump" Version="1.3.0" />
       <PackageReference Include="xunit.abstractions" Version="2.0.3" />
     </ItemGroup>
 

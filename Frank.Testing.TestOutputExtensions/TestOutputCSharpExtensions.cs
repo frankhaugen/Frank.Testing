@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 
+using Frank.Reflection.Dump;
+
 using VarDump;
 using VarDump.Visitor;
 
@@ -34,8 +36,21 @@ public static class TestOutputCSharpExtensions
     public static void WriteCSharp<T>(this ITestOutputHelper outputHelper, T source, DumpOptions? dumpOptions = null)
     {
         var options = dumpOptions ?? DumpOptions;
-        var dumper = new CSharpDumper(options);
-        outputHelper.WriteLine(dumper.Dump(source));
+        outputHelper.WriteLine(source.DumpClass(options));
+    }
+
+    /// <summary>
+    /// Writes the C# representation of the elements in the specified source collection to the test output.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the source collection.</typeparam>
+    /// <param name="outputHelper">The test output helper.</param>
+    /// <param name="source">The source collection.</param>
+    /// <param name="idSelector">The function to extract an identifier from each element.</param>
+    /// <param name="dumpOptions">The options for dumping the elements. Null to use the default options.</param>
+    public static void WriteCSharp<T>(this ITestOutputHelper outputHelper, IEnumerable<T> source, Func<T, string> idSelector, DumpOptions? dumpOptions = null)
+    {
+        var options = dumpOptions ?? DumpOptions;
+        outputHelper.WriteLine(source.DumpEnumerable(idSelector, options));
     }
 
     private static DumpOptions DumpOptions => new DumpOptions()
@@ -48,4 +63,11 @@ public static class TestOutputCSharpExtensions
         SortDirection = ListSortDirection.Ascending,
         MaxDepth = 64,
     };
+}
+
+public enum CSharpDumpType
+{
+    Variable,
+    Class,
+    IEnumerable
 }
