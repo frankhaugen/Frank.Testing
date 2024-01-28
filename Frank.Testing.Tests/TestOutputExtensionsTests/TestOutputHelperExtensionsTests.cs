@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 using Xunit.Abstractions;
 
-namespace Frank.Testing.Tests;
+namespace Frank.Testing.Tests.TestOutputExtensionsTests;
 
 [TestSubject(typeof(TestOutputHelperExtensions))]
 public class TestOutputHelperExtensionsTests(ITestOutputHelper testOutputHelper)

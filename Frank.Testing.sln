@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frank.Testing.ApiTesting", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frank.Testing.EntityFrameworkCore", "Frank.Testing.EntityFrameworkCore\Frank.Testing.EntityFrameworkCore.csproj", "{A64BD8FC-364F-40E5-A276-F1DEA9D98F67}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frank.Testing.Testcontainers", "Frank.Testing.Testcontainers\Frank.Testing.Testcontainers.csproj", "{13E7B32B-CBA5-4BA3-854B-697B835796F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,5 +55,9 @@ Global
 		{A64BD8FC-364F-40E5-A276-F1DEA9D98F67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A64BD8FC-364F-40E5-A276-F1DEA9D98F67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A64BD8FC-364F-40E5-A276-F1DEA9D98F67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13E7B32B-CBA5-4BA3-854B-697B835796F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13E7B32B-CBA5-4BA3-854B-697B835796F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13E7B32B-CBA5-4BA3-854B-697B835796F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13E7B32B-CBA5-4BA3-854B-697B835796F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
