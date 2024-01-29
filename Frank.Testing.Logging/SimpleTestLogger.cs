@@ -11,8 +11,6 @@ public class SimpleTestLogger<T>(ITestOutputHelper outputHelper, LogLevel logLev
 
 public class SimpleTestLogger(ITestOutputHelper outputHelper, LogLevel level, string categoryName) : ILogger
 {
-    private string _categoryName = categoryName;
-
     public IDisposable? BeginScope<TState>(TState state) where TState : notnull 
         => new PulseFlowLoggerScope<TState>(state);
 
@@ -23,6 +21,6 @@ public class SimpleTestLogger(ITestOutputHelper outputHelper, LogLevel level, st
         if (logLevel < level)
             return;
 
-        outputHelper.WriteLine(new LogPulse(logLevel, eventId, exception, _categoryName, formatter.Invoke(state, exception), state as IReadOnlyList<KeyValuePair<string, object?>>).ToString());
+        outputHelper.WriteLine(new LogPulse(logLevel, eventId, exception, categoryName, formatter.Invoke(state, exception), state as IReadOnlyList<KeyValuePair<string, object?>>).ToString());
     }
 }

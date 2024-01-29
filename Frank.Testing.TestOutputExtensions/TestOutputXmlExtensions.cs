@@ -13,7 +13,7 @@ public static class TestOutputXmlExtensions
         using var textWriter = new StringWriter();
         using var xmlWriter = XmlWriter.Create(textWriter, settings);
         var xmlSerializer = new XmlSerializerFactory().CreateSerializer(typeof(T));
-        xmlSerializer.Serialize(xmlWriter, source);
+        xmlSerializer.Serialize(xmlWriter, source, new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty }));
         outputHelper.WriteLine(textWriter.ToString());
     }
 
@@ -24,6 +24,6 @@ public static class TestOutputXmlExtensions
         NewLineChars = "\n",
         NewLineHandling = NewLineHandling.Replace,
         OmitXmlDeclaration = false,
-        Encoding = new UTF8Encoding(false),
+        Encoding = new UTF8Encoding(false)
     };
 }

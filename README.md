@@ -4,8 +4,8 @@ A set of nugets to allow for easier testing of dotnet code using xUnit
 
 ___
 [![GitHub License](https://img.shields.io/github/license/frankhaugen/Frank.Testing)](LICENSE)
-[![NuGet](https://img.shields.io/nuget/v/Frank.Testing.svg)](https://www.nuget.org/packages/Frank.Testing)
-[![NuGet](https://img.shields.io/nuget/dt/Frank.Testing.svg)](https://www.nuget.org/packages/Frank.Testing)
+[![NuGet](https://img.shields.io/nuget/v/Frank.Testing.Logging.svg)](https://www.nuget.org/packages/Frank.Testing.Logging)
+[![NuGet](https://img.shields.io/nuget/dt/Frank.Testing.Logging.svg)](https://www.nuget.org/packages/Frank.Testing.Logging)
 
 ![GitHub contributors](https://img.shields.io/github/contributors/frankhaugen/Frank.Testing)
 ![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/frankhaugen/Frank.Testing)

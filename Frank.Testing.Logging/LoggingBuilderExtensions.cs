@@ -19,7 +19,6 @@ public static class LoggingBuilderExtensions
     /// <returns>The modified ILoggingBuilder with the test logging added.</returns>
     public static ILoggingBuilder AddPulseFlowTestLoggingProvider(this ILoggingBuilder builder, ITestOutputHelper outputHelper, LogLevel logLevel = LogLevel.Debug)
     {
-        builder.ClearProviders();
         builder.AddPulseFlow();
         builder.Services.AddSingleton(outputHelper);
         builder.Services.Configure<LoggerFilterOptions>(options =>
@@ -27,6 +26,23 @@ public static class LoggingBuilderExtensions
             options.MinLevel = logLevel;
         });
         builder.Services.AddPulseFlow(flowBuilder => flowBuilder.AddFlow<TestLoggingOutputFlow>());
+        return builder;
+    }
+    
+    public static ILoggingBuilder AddSimpleTestLoggingProvider(this ILoggingBuilder builder, ITestOutputHelper outputHelper, LogLevel logLevel = LogLevel.Debug)
+    {
+        builder.Services.AddSingleton(outputHelper);
+        builder.Services.Configure<LoggerFilterOptions>(options =>
+        {
+            options.MinLevel = logLevel;
+        });
+        builder.AddProvider<SimpleTestLoggerProvider>();
+        return builder;
+    }
+    
+    public static ILoggingBuilder AddProvider<T>(this ILoggingBuilder builder) where T : class, ILoggerProvider
+    {
+        builder.Services.AddSingleton<ILoggerProvider, T>();
         return builder;
     }
 }

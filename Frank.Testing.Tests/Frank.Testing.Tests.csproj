@@ -30,6 +30,8 @@
       <ProjectReference Include="..\Frank.Testing.ApiTesting\Frank.Testing.ApiTesting.csproj" />
       <ProjectReference Include="..\Frank.Testing.EntityFrameworkCore\Frank.Testing.EntityFrameworkCore.csproj" />
       <ProjectReference Include="..\Frank.Testing.Logging\Frank.Testing.Logging.csproj" />
+      <ProjectReference Include="..\Frank.Testing.TestBases\Frank.Testing.TestBases.csproj" />
+      <ProjectReference Include="..\Frank.Testing.Testcontainers\Frank.Testing.Testcontainers.csproj" />
       <ProjectReference Include="..\Frank.Testing.TestOutputExtensions\Frank.Testing.TestOutputExtensions.csproj" />
     </ItemGroup>
 

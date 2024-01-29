@@ -64,10 +64,3 @@ public static class TestOutputCSharpExtensions
         MaxDepth = 64,
     };
 }
-
-public enum CSharpDumpType
-{
-    Variable,
-    Class,
-    IEnumerable
-}

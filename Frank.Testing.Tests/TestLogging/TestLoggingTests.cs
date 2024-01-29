@@ -24,7 +24,10 @@ public class TestLoggingTests(ITestOutputHelper outputHelper)
         return Host.CreateDefaultBuilder()
             .ConfigureLogging(logging =>
             {
-                logging.AddPulseFlowTestLoggingProvider(outputHelper, LogLevel.Information);
+                logging
+                    .AddPulseFlowTestLoggingProvider(outputHelper, LogLevel.Information)
+                    // .AddSimpleTestLoggingProvider(outputHelper, LogLevel.Information)
+                    ;
             })
             .ConfigureServices((context, services) =>
             {
@@ -37,9 +40,10 @@ public class TestLoggingTests(ITestOutputHelper outputHelper)
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             using var scope = logger.BeginScope("Titans are {Description}", "awesome");
+            var counter = 0;
             while (!stoppingToken.IsCancellationRequested)
             {
-                logger.LogInformation("Hello from MyService");
+                logger.LogInformation("Hello from MyService {Counter}", counter++);
                 await Task.Delay(100, stoppingToken);
             }
         }

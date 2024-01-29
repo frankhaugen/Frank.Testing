@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -17,6 +16,8 @@ public class DbContextBuilder<T> where T : DbContext
     
     private ILoggerFactory? _loggerFactory;
     private string _sqliteConnectionString = "Data Source=:memory:";
+    
+    private string _databaseName = "TestDatabase";
 
     public DbContextBuilder<T> WithLoggerProvider(ILoggerProvider loggerProvider)
     {
@@ -36,9 +37,27 @@ public class DbContextBuilder<T> where T : DbContext
         return this;
     }
     
+    public DbContextBuilder<T> WithLoggerFactory(ILoggerFactory loggerFactory)
+    {
+        _loggerFactory = loggerFactory;
+        return this;
+    }
+    
     public DbContextBuilder<T> WithOptions(Action<DbContextOptionsBuilder<T>> configureOptions)
     {
         _configuredOptions = configureOptions as Action<DbContextOptionsBuilder>;
+        return this;
+    }
+    
+    public DbContextBuilder<T> WithDatabaseName(string databaseName)
+    {
+        _databaseName = databaseName;
+        return this;
+    }
+    
+    public DbContextBuilder<T> WithRandomDatabaseName()
+    {
+        _databaseName = Guid.NewGuid().ToString();
         return this;
     }
     
