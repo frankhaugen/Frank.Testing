@@ -28,7 +28,7 @@ public class WebHostApplicationTestBaseWithStartupTests(ITestOutputHelper output
         return Task.CompletedTask;
     }
 
-    [Fact]
+    [Fact]  
     public async Task Test()
     {
         var service = Services.GetRequiredService<IService>();
