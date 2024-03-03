@@ -1,48 +1,45 @@
-﻿using System.Net;
+﻿using FluentAssertions;
 
-using FluentAssertions;
-
+using Frank.Testing.Logging;
 using Frank.Testing.TestBases;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Xunit.Abstractions;
 
 namespace Frank.Testing.Tests.TestBases;
 
-public class WebHostApplicationTestBaseTests(ITestOutputHelper outputHelper) : WebHostApplicationTestBase(outputHelper)
+public class WebHostApplicationTestBaseTests(ITestOutputHelper outputHelper) : WebApplicationTestBase(new InMemoryLoggerProvider(Options.Create(new LoggerFilterOptions() {MinLevel = LogLevel.Debug})))
 {
-    protected override Task SetupAsync(IWebHostBuilder builder)
+    /// <inheritdoc />
+    protected override Task SetupAsync(WebApplicationBuilder builder)
     {
-        builder.ConfigureServices((context, services) =>
-        {
-            services.AddControllersWithViews();
-        });
-        builder.Configure((context, app) =>
-        {
-            app.UseRouting();
-            app.UseEndpoints(endpoints =>
+        builder.Services.AddControllers().AddApplicationPart(typeof(MyController).Assembly); // Add controllers from the assembly where MyController is defined
+        builder.Services.AddHealthChecks();
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc />
+    protected override Task SetupApplicationAsync(WebApplication application)
+    {
+        application.MapControllers();
+        application.MapHealthChecks("/health");
+        application.MapGet("/test1", async httpContext =>
             {
-                // endpoints.MapHealthChecks("/health");
-                endpoints.MapControllers();
-                endpoints.MapGet("/test1", async httpContext =>
-                {
-                    await httpContext.Response.WriteAsync("Test1 endpoint");
-                });
-                
+                await httpContext.Response.WriteAsync("Test1 endpoint");
             });
-        });
         return Task.CompletedTask;
     }
 
     [Fact]
     public async Task Test()
     {
-        var response = await TestClient.GetAsync("/test1");
+        var response = await GetTestClient.GetAsync("/test1");
         var content = await response.Content.ReadAsStringAsync();
         content.Should().Be("Test1 endpoint");
     }
@@ -50,23 +47,20 @@ public class WebHostApplicationTestBaseTests(ITestOutputHelper outputHelper) : W
     [Fact]
     public async Task Test2()
     {
-        var response = await TestClient.GetAsync("/test2");
+        outputHelper.WriteLine("Endpoints:");
+        foreach (var endpointRoute in GetEndpointRoutes) outputHelper.WriteLine(endpointRoute);
+        
+        var response = await GetTestClient.GetAsync("/test2");
         var content = await response.Content.ReadAsStringAsync();
+        // outputHelper.WriteLine(response);
         content.Should().Be("Test2 endpoint");
-    }
-    
-    [Fact]
-    public void Test3()
-    {
-        var endpoints = GetServerEndpoints();
-        // endpoints = Enumerable.Empty<string>();
-        outputHelper.WriteLine(string.Join(Environment.NewLine, endpoints));
     }
 }
 
+[ApiController]
 public class MyController : ControllerBase
 {
-    [HttpGet("/test2")]
+    [HttpGet("test2")]
     public IActionResult Test2()
     {
         return Ok("Test2 endpoint");

@@ -39,6 +39,27 @@ public static class LoggingBuilderExtensions
         builder.AddProvider<SimpleTestLoggerProvider>();
         return builder;
     }
+
+    public static ILoggingBuilder AddInMemoryLoggingProvider(this ILoggingBuilder builder, LogLevel logLevel = LogLevel.Debug)
+    {
+        builder.Services.Configure<LoggerFilterOptions>(options =>
+        {
+            options.MinLevel = logLevel;
+        });
+        builder.AddProvider<InMemoryLoggerProvider>();
+        return builder;
+    }
+    
+    public static ILoggingBuilder AddJsonTestLoggingProvider(this ILoggingBuilder builder, ITestOutputHelper outputHelper, LogLevel logLevel = LogLevel.Debug)
+    {
+        builder.Services.AddSingleton(outputHelper);
+        builder.Services.Configure<LoggerFilterOptions>(options =>
+        {
+            options.MinLevel = logLevel;
+        });
+        builder.AddProvider<JsonTestLoggerProvider>();
+        return builder;
+    }
     
     public static ILoggingBuilder AddProvider<T>(this ILoggingBuilder builder) where T : class, ILoggerProvider
     {

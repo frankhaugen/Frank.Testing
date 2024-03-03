@@ -1,29 +1,37 @@
-﻿using System.Net;
+﻿using FluentAssertions;
 
-using FluentAssertions;
-
+using Frank.Testing.Logging;
 using Frank.Testing.TestBases;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Xunit.Abstractions;
 
 namespace Frank.Testing.Tests.TestBases;
 
-public class WebHostApplicationTestBaseWithStartupTests(ITestOutputHelper outputHelper) : WebHostApplicationTestBase(outputHelper)
+public class WebHostApplicationTestBaseWithStartupTests(ITestOutputHelper outputHelper) : WebApplicationTestBase(new InMemoryLoggerProvider(Options.Create(new LoggerFilterOptions() {MinLevel = LogLevel.Debug})))
 {
-    protected override Task SetupAsync(IWebHostBuilder builder)
+    /// <inheritdoc />
+    protected override Task SetupAsync(WebApplicationBuilder builder)
     {
-        builder.UseStartup<Startup>();
-        builder.ConfigureServices(services =>
+        builder.Services.AddControllers();
+        builder.Services.AddSingleton<IService, MyService>();
+        
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc />
+    protected override Task SetupApplicationAsync(WebApplication application)
+    {
+        application.UseRouting();
+        application.MapControllers();
+        application.MapGet("/test1", async httpContext =>
         {
-            services.Replace<IService, CoolService>();
+            await httpContext.Response.WriteAsync("Test1 endpoint");
         });
         return Task.CompletedTask;
     }
@@ -31,9 +39,13 @@ public class WebHostApplicationTestBaseWithStartupTests(ITestOutputHelper output
     [Fact]  
     public async Task Test()
     {
-        var service = Services.GetRequiredService<IService>();
+        var service = GetServices.GetRequiredService<IService>();
         
         service.DoSomething();
+        
+        var myServiceLogger = GetServices.GetRequiredService<ILogger<MyService>>();
+        var inMemoryLogger = myServiceLogger as InMemoryLogger<MyService>;
+        inMemoryLogger?.GetLogEntries().Should().Contain(log => log.Message == "DoSomething");
     }
 }
 

@@ -1,16 +1,19 @@
 ﻿using FluentAssertions;
+using FluentAssertions.Common;
 
+using Frank.Testing.Logging;
 using Frank.Testing.TestBases;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using Xunit.Abstractions;
 
 namespace Frank.Testing.Tests.TestBases;
 
-public class HostApplicationTestBaseTests(ITestOutputHelper outputHelper) : HostApplicationTestBase(outputHelper)
+public class HostApplicationTestBaseTests(ITestOutputHelper outputHelper) : HostApplicationTestBase(new SimpleTestLoggerProvider(outputHelper, Options.Create(new LoggerFilterOptions { MinLevel = LogLevel.Debug })))
 {
     protected override Task SetupAsync(HostApplicationBuilder builder)
     {
@@ -28,7 +31,7 @@ public class HostApplicationTestBaseTests(ITestOutputHelper outputHelper) : Host
     [Fact]
     public void Test2()
     {
-        var service = Services.GetService<TestService2>();
+        var service = GetServices.GetService<TestService2>();
         service.Should().NotBeNull();
     }
     

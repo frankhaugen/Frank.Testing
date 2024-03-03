@@ -19,10 +19,8 @@ public class DbContextBuilderTests(ITestOutputHelper outputHelper)
     [Fact]
     public void Build_WithLoggerProvider_UsesLoggerProvider()
     {
-        var options = Substitute.For<IOptionsMonitor<LoggerFilterOptions>>();
-        options.CurrentValue.Returns(new LoggerFilterOptions() { MinLevel = LogLevel.Debug });
         var dbContext = new DbContextBuilder<DbContext>()
-            .WithLoggerProvider(new SimpleTestLoggerProvider(outputHelper, options))
+            .WithLoggerProvider(new SimpleTestLoggerProvider(outputHelper, Options.Create(new LoggerFilterOptions() { MinLevel = LogLevel.Debug })))
             .Build();
         dbContext.Database.EnsureCreated();
         dbContext.Database.ExecuteSqlRaw("SELECT 1");
@@ -32,10 +30,8 @@ public class DbContextBuilderTests(ITestOutputHelper outputHelper)
     [Fact]
     public void Build_WithService_UsesService()
     {
-        var options = Substitute.For<IOptionsMonitor<LoggerFilterOptions>>();
-        options.CurrentValue.Returns(new LoggerFilterOptions() { MinLevel = LogLevel.Debug });
         var dbContext = new DbContextBuilder<DbContext>()
-            .WithLoggerProvider(new SimpleTestLoggerProvider(outputHelper, options))
+            .WithLoggerProvider(new SimpleTestLoggerProvider(outputHelper, Options.Create(new LoggerFilterOptions() { MinLevel = LogLevel.Debug })))
             .WithService<ITestService>(services => services.AddSingleton<ITestService, TestService>())
             .Build();
         Assert.NotNull(dbContext.GetService<ITestService>());
@@ -44,10 +40,8 @@ public class DbContextBuilderTests(ITestOutputHelper outputHelper)
     [Fact]
     public void Build_WithOptions_UsesOptions()
     {
-        var options = Substitute.For<IOptionsMonitor<LoggerFilterOptions>>();
-        options.CurrentValue.Returns(new LoggerFilterOptions() { MinLevel = LogLevel.Debug });
         var dbContext = new DbContextBuilder<DbContext>()
-            .WithLoggerProvider(new SimpleTestLoggerProvider(outputHelper, options))
+            .WithLoggerProvider(new SimpleTestLoggerProvider(outputHelper, Options.Create(new LoggerFilterOptions() { MinLevel = LogLevel.Debug })))
             .WithOptions(options => options.UseSqlite("Data Source=:memory:"))
             .Build();
         dbContext.Database.EnsureCreated();
@@ -58,10 +52,8 @@ public class DbContextBuilderTests(ITestOutputHelper outputHelper)
     [Fact]
     public void Build_WithLoggerProviderAndService_UsesLoggerProviderAndService()
     {
-        var options = Substitute.For<IOptionsMonitor<LoggerFilterOptions>>();
-        options.CurrentValue.Returns(new LoggerFilterOptions() { MinLevel = LogLevel.Debug });
         var dbContext = new DbContextBuilder<TestDbContext>()
-            .WithLoggerProvider(new SimpleTestLoggerProvider(outputHelper, options))
+            .WithLoggerProvider(new SimpleTestLoggerProvider(outputHelper, Options.Create(new LoggerFilterOptions() { MinLevel = LogLevel.Debug })))
             .WithSqliteConnectionString("Data Source=MyTestDatabase.db")
             .WithService<ITestService>(services => services.AddSingleton<ITestService, TestService>())
             .Build();
@@ -74,10 +66,8 @@ public class DbContextBuilderTests(ITestOutputHelper outputHelper)
     [Fact]
     public void Build_WithLoggerProviderAndOptions_UsesLoggerProviderAndOptions()
     {
-        var options = Substitute.For<IOptionsMonitor<LoggerFilterOptions>>();
-        options.CurrentValue.Returns(new LoggerFilterOptions() { MinLevel = LogLevel.Debug });
         var dbContext = new DbContextBuilder<TestDbContext>()
-            .WithLoggerProvider(new SimpleTestLoggerProvider(outputHelper, options))
+            .WithLoggerProvider(new SimpleTestLoggerProvider(outputHelper, Options.Create(new LoggerFilterOptions() { MinLevel = LogLevel.Debug })))
             .WithSqliteConnectionString("Data Source=MyTestDatabase.db")
             .Build();
         dbContext.Database.EnsureCreated();
