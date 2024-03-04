@@ -5,6 +5,7 @@ using Frank.Testing.TestBases;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -29,9 +30,19 @@ public class WebHostApplicationTestBaseWithStartupTests(ITestOutputHelper output
     {
         application.UseRouting();
         application.MapControllers();
-        application.MapGet("/test1", async httpContext =>
+        application.MapGet("/test1/{id}/test2/{id2}",
+            async httpContext =>
+            {
+                await httpContext.Response.WriteAsync("Test1 endpoint");
+            });
+        application.MapDelete("/test1/{id}/test2/{id2}",
+            async (HttpContext httpContext, string id, string id2) =>
+            {
+                await httpContext.Response.WriteAsync("Test1 endpoint");
+            });
+        application.MapGet("/test2", async httpContext =>
         {
-            await httpContext.Response.WriteAsync("Test1 endpoint");
+            await httpContext.Response.WriteAsync("Test2 endpoint");
         });
         return Task.CompletedTask;
     }
@@ -46,6 +57,8 @@ public class WebHostApplicationTestBaseWithStartupTests(ITestOutputHelper output
         var myServiceLogger = GetServices.GetRequiredService<ILogger<MyService>>();
         var inMemoryLogger = myServiceLogger as InMemoryLogger<MyService>;
         inMemoryLogger?.GetLogEntries().Should().Contain(log => log.Message == "DoSomething");
+        
+        outputHelper.WriteTable(GetEndpoints.Cast<RouteEndpoint>().Select(route => new {Name = route.DisplayName, Method = route.Metadata.GetMetadata<HttpMethodMetadata>()!.HttpMethods.FirstOrDefault(), route.RoutePattern.RawText}));
     }
 }
 

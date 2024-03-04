@@ -11,6 +11,10 @@ public class SimpleTestLoggerProvider(ITestOutputHelper outputHelper, IOptions<L
 {
     private readonly ConcurrentDictionary<string, SimpleTestLogger> _loggers = new();
     
+    public SimpleTestLoggerProvider(ITestOutputHelper outputHelper): this(outputHelper, Options.Create<LoggerFilterOptions>(new LoggerFilterOptions() { MinLevel = LogLevel.Information }))
+    {
+    }
+    
     /// <inheritdoc />
     public void Dispose() => _loggers.Clear();
 
