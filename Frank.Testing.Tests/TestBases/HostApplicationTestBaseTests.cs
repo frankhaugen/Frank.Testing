@@ -13,7 +13,7 @@ using Xunit.Abstractions;
 
 namespace Frank.Testing.Tests.TestBases;
 
-public class HostApplicationTestBaseTests(ITestOutputHelper outputHelper) : HostApplicationTestBase(new SimpleTestLoggerProvider(outputHelper, Options.Create(new LoggerFilterOptions { MinLevel = LogLevel.Debug })))
+public class HostApplicationTestBaseTests(ITestOutputHelper outputHelper) : HostApplicationTestBase(outputHelper, loggerProvider: new SimpleTestLoggerProvider(outputHelper, Options.Create(new LoggerFilterOptions())))
 {
     protected override Task SetupAsync(HostApplicationBuilder builder)
     {
@@ -25,7 +25,7 @@ public class HostApplicationTestBaseTests(ITestOutputHelper outputHelper) : Host
     [Fact]
     public async Task Test()
     {
-        await Task.Delay(2500);
+        await Task.Delay(1500);
     }
     
     [Fact]

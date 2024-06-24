@@ -1,8 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Frank.Testing.Logging;
+
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Frank.Testing.TestBases;
 
@@ -20,12 +23,18 @@ public abstract class HostApplicationTestBase : IAsyncLifetime
     /// <summary>
     /// Creates a new instance of <see cref="HostApplicationTestBase"/> with the specified logger provider and log level
     /// </summary>
-    /// <param name="loggerProvider"></param>
+    /// <param name="outputHelper"></param>
     /// <param name="logLevel"></param>
-    protected HostApplicationTestBase(ILoggerProvider loggerProvider, LogLevel logLevel = LogLevel.Error)
+    /// <param name="loggerProvider"></param>
+    protected HostApplicationTestBase(ITestOutputHelper outputHelper, LogLevel logLevel = LogLevel.Error, ILoggerProvider? loggerProvider = null)
     {
         _hostApplicationBuilder = Host.CreateApplicationBuilder();
-        _hostApplicationBuilder.Logging.AddDebug().AddProvider(loggerProvider).SetMinimumLevel(logLevel);
+        _hostApplicationBuilder.Logging.ClearProviders().AddDebug().AddProvider(outputHelper.CreateTestLoggerProvider()).SetMinimumLevel(logLevel);
+        
+        if (loggerProvider != null)
+        {
+            _hostApplicationBuilder.Logging.AddProvider(loggerProvider);
+        }
     }
 
     /// <summary>

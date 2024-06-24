@@ -1,5 +1,7 @@
 using System.Net;
 
+using Frank.Testing.Logging;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Frank.Testing.TestBases;
 
@@ -26,12 +29,18 @@ public abstract class WebApplicationTestBase : IAsyncLifetime
     /// <summary>
     /// Creates a new instance of <see cref="WebApplicationTestBase"/> with the specified logger provider and log level
     /// </summary>
-    /// <param name="loggerProvider"></param>
+    /// <param name="outputHelper"></param>
     /// <param name="logLevel"></param>
-    protected WebApplicationTestBase(ILoggerProvider loggerProvider, LogLevel logLevel = LogLevel.Error)
+    /// <param name="loggerProvider"></param>
+    protected WebApplicationTestBase(ITestOutputHelper outputHelper, LogLevel logLevel = LogLevel.Error, ILoggerProvider? loggerProvider = null)
     {
         _hostApplicationBuilder = WebApplication.CreateBuilder();
-        _hostApplicationBuilder.Logging.AddDebug().AddProvider(loggerProvider).SetMinimumLevel(logLevel);
+        _hostApplicationBuilder.Logging.ClearProviders().AddDebug().AddProvider(outputHelper.CreateTestLoggerProvider()).SetMinimumLevel(logLevel);
+        
+        if (loggerProvider != null)
+        {
+            _hostApplicationBuilder.Logging.AddProvider(loggerProvider);
+        }
     }
 
     /// <summary>

@@ -14,8 +14,10 @@ using Xunit.Abstractions;
 
 namespace Frank.Testing.Tests.TestBases;
 
-public class WebHostApplicationTestBaseTests(ITestOutputHelper outputHelper) : WebApplicationTestBase(new InMemoryLoggerProvider(Options.Create(new LoggerFilterOptions() {MinLevel = LogLevel.Debug})))
+public class WebHostApplicationTestBaseTests(ITestOutputHelper outputHelper) : WebApplicationTestBase(outputHelper, loggerProvider: new InMemoryLoggerProvider(Options.Create(new LoggerFilterOptions() {MinLevel = LogLevel.Debug})))
 {
+    private readonly ITestOutputHelper _outputHelper = outputHelper;
+
     /// <inheritdoc />
     protected override Task SetupAsync(WebApplicationBuilder builder)
     {
@@ -47,8 +49,8 @@ public class WebHostApplicationTestBaseTests(ITestOutputHelper outputHelper) : W
     [Fact]
     public async Task Test2()
     {
-        outputHelper.WriteLine("Endpoints:");
-        foreach (var endpointRoute in GetEndpointRoutes) outputHelper.WriteLine(endpointRoute);
+        _outputHelper.WriteLine("Endpoints:");
+        foreach (var endpointRoute in GetEndpointRoutes) _outputHelper.WriteLine(endpointRoute);
         
         var response = await GetTestClient.GetAsync("/test2");
         var content = await response.Content.ReadAsStringAsync();

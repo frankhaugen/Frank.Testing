@@ -14,8 +14,10 @@ using Xunit.Abstractions;
 
 namespace Frank.Testing.Tests.TestBases;
 
-public class WebHostApplicationTestBaseWithStartupTests(ITestOutputHelper outputHelper) : WebApplicationTestBase(new InMemoryLoggerProvider(Options.Create(new LoggerFilterOptions() {MinLevel = LogLevel.Debug})))
+public class WebHostApplicationTestBaseWithStartupTests(ITestOutputHelper outputHelper) : WebApplicationTestBase(outputHelper, loggerProvider: new InMemoryLoggerProvider(Options.Create(new LoggerFilterOptions() {MinLevel = LogLevel.Debug})))
 {
+    private readonly ITestOutputHelper _outputHelper = outputHelper;
+
     /// <inheritdoc />
     protected override Task SetupAsync(WebApplicationBuilder builder)
     {
@@ -58,7 +60,7 @@ public class WebHostApplicationTestBaseWithStartupTests(ITestOutputHelper output
         var inMemoryLogger = myServiceLogger as InMemoryLogger<MyService>;
         inMemoryLogger?.GetLogEntries().Should().Contain(log => log.Message == "DoSomething");
         
-        outputHelper.WriteTable(GetEndpoints.Cast<RouteEndpoint>().Select(route => new {Name = route.DisplayName, Method = route.Metadata.GetMetadata<HttpMethodMetadata>()!.HttpMethods.FirstOrDefault(), route.RoutePattern.RawText}));
+        _outputHelper.WriteTable(GetEndpoints.Cast<RouteEndpoint>().Select(route => new {Name = route.DisplayName, Method = route.Metadata.GetMetadata<HttpMethodMetadata>()!.HttpMethods.FirstOrDefault(), route.RoutePattern.RawText}));
     }
 }
 
