@@ -33,10 +33,10 @@ public static class TestOutputCSharpExtensions
     /// <param name="outputHelper">The test output helper.</param>
     /// <param name="source">The source object to be written as C# code.</param>
     /// <param name="dumpOptions">The optional dump options to control the formatting of the C# code.</param>
-    public static void WriteCSharp<T>(this ITestOutputHelper outputHelper, T source, DumpOptions? dumpOptions = null)
+    public static void WriteCSharp<T>(this TestContext? outputHelper, T source, DumpOptions? dumpOptions = null)
     {
         var options = dumpOptions ?? DumpOptions;
-        outputHelper.WriteLine(source.DumpClass(options));
+        outputHelper?.WriteLine(source.DumpClass(options));
     }
 
     /// <summary>
@@ -47,10 +47,10 @@ public static class TestOutputCSharpExtensions
     /// <param name="source">The source collection.</param>
     /// <param name="idSelector">The function to extract an identifier from each element.</param>
     /// <param name="dumpOptions">The options for dumping the elements. Null to use the default options.</param>
-    public static void WriteCSharp<T>(this ITestOutputHelper outputHelper, IEnumerable<T> source, Func<T, string> idSelector, DumpOptions? dumpOptions = null)
+    public static void WriteCSharp<T>(this TestContext? outputHelper, IEnumerable<T> source, Func<T, string> idSelector, DumpOptions? dumpOptions = null)
     {
         var options = dumpOptions ?? DumpOptions;
-        outputHelper.WriteLine(source.DumpEnumerable(idSelector, options));
+        outputHelper?.WriteLine(source.DumpEnumerable(idSelector, options));
     }
 
     private static DumpOptions DumpOptions => new DumpOptions()

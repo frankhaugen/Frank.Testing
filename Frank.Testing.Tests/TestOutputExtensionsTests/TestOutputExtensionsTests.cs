@@ -4,28 +4,20 @@ using Xunit.Abstractions;
 
 namespace Frank.Testing.Tests.TestOutputExtensionsTests;
 
-[TestSubject(typeof(TestOutputJsonExtensions))]
 public class TestOutputExtensionsTests
 {
-    private readonly ITestOutputHelper _outputHelper;
-
-    public TestOutputExtensionsTests(ITestOutputHelper outputHelper)
-    {
-        _outputHelper = outputHelper;
-    }
-
-    [Fact]
+    [Test]
     public void Test1()
     {
         var model = new TestModel { Name = "Frank" };
-        _outputHelper.WriteLine(model);
+        TestContext.Current.WriteLine(model);
     }
     
-    [Fact]
+    [Test]
     public void Test2()
     {
         var model = new TestModel { Name = "Frank" };
-        _outputHelper.WriteJson(model);
+        TestContext.Current.WriteJson(model);
     }
     
     private class TestModel

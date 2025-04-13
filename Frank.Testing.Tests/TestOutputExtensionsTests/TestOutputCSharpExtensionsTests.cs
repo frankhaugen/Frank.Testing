@@ -6,14 +6,13 @@ using Xunit.Abstractions;
 
 namespace Frank.Testing.Tests.TestOutputExtensionsTests;
 
-[TestSubject(typeof(TestOutputCSharpExtensions))]
-public class TestOutputCSharpExtensionsTests(ITestOutputHelper outputHelper)
+public class TestOutputCSharpExtensionsTests()
 {
-    [Fact]
+    [Test]
     public void WriteCSharp_ShouldWriteCSharpOutput_WhenSourceIsSimpleObject()
     {
         var source = new TestPerson { Name = "John Doe", Age = 30 };
 
-        outputHelper.WriteCSharp(source);
+        TestContext.Current.WriteCSharp(source);
     }
 }

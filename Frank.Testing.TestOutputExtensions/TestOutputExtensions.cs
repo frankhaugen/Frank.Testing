@@ -11,5 +11,5 @@ public static class TestOutputExtensions
     /// <param name="outputHelper">The ITestOutputHelper instance.</param>
     /// <param name="source">The object to write.</param>
     /// <exception cref="System.Text.Json.JsonException">Thrown when unable to serialize the object.</exception>
-    public static void WriteLine<T>(this ITestOutputHelper outputHelper, T? source) => outputHelper.WriteLine(JsonSerializer.Serialize(source, outputHelper.GetDefaultJsonSerializerOptions()));
+    public static void WriteLine<T>(this TestContext? outputHelper, T? source) => outputHelper.WriteLine(JsonSerializer.Serialize(source, outputHelper.GetDefaultJsonSerializerOptions()));
 }

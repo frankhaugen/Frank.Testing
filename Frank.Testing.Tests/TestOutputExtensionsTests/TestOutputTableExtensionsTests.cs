@@ -1,17 +1,11 @@
-﻿using Xunit.Abstractions;
+﻿
+using Xunit.Abstractions;
 
 namespace Frank.Testing.Tests.TestOutputExtensionsTests;
 
 public class TestOutputTableExtensionsTests
 {
-    private readonly ITestOutputHelper _outputHelper;
-
-    public TestOutputTableExtensionsTests(ITestOutputHelper outputHelper)
-    {
-        _outputHelper = outputHelper;
-    }
-
-    [Fact]
+    [Test]
     public void ToTable_WithEnumerable_ReturnsTable()
     {
         // Arrange
@@ -22,6 +16,6 @@ public class TestOutputTableExtensionsTests
         };
 
         // Act
-        _outputHelper.WriteTable(passwords);
+        TestContext.Current?.WriteTable(passwords);
     }
 }

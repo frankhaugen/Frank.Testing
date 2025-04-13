@@ -4,111 +4,109 @@ using JetBrains.Annotations;
 
 using Microsoft.Extensions.Logging;
 
-using Xunit.Abstractions;
-
 namespace Frank.Testing.Tests.TestOutputExtensionsTests;
 
 [TestSubject(typeof(TestOutputHelperExtensions))]
-public class TestOutputHelperExtensionsTests(ITestOutputHelper testOutputHelper)
+public class TestOutputHelperExtensionsTests()
 {
-    [Fact]
-    public void CreateTestLoggerAndLog()
+    [Test]
+    public async Task CreateTestLoggerAndLog()
     {
         //Arrange
-        var loggerString = testOutputHelper.CreateTestLogger<string>();
+        var loggerString = TestContext.Current.CreateTestLogger<string>();
 
         //Act
         loggerString.LogInformation("Hello World");
 
         //Assert
-        Assert.NotNull(loggerString);
+        await Assert.That(loggerString).IsNotNull();
     }
 
-    [Fact]
-    public void CreateTestLoggerDefaultLogLevel()
+    [Test]
+    public async Task CreateTestLoggerDefaultLogLevel()
     {
         //Arrange
         //Act
-        var loggerString = testOutputHelper.CreateTestLogger<string>();
+        var loggerString = TestContext.Current.CreateTestLogger<string>();
 
         //Assert
-        Assert.NotNull(loggerString);
+        await Assert.That(loggerString).IsNotNull();
     }
 
-    [Fact]
-    public void CreateTestLoggerTraceLogLevel()
+    [Test]
+    public async Task CreateTestLoggerTraceLogLevel()
     {
         //Arrange
         //Act
-        var loggerString = testOutputHelper.CreateTestLogger<string>(LogLevel.Trace);
+        var loggerString = TestContext.Current.CreateTestLogger<string>(LogLevel.Trace);
 
         //Assert
-        Assert.NotNull(loggerString);
+        await Assert.That(loggerString).IsNotNull();
     }
 
-    [Fact]
-    public void CreateTestLoggerDebugLogLevel()
+    [Test]
+    public async Task CreateTestLoggerDebugLogLevel()
     {
         //Arrange
         //Act
-        var loggerString = testOutputHelper.CreateTestLogger<string>(LogLevel.Debug);
+        var loggerString = TestContext.Current.CreateTestLogger<string>(LogLevel.Debug);
 
         //Assert
-        Assert.NotNull(loggerString);
+        await Assert.That(loggerString).IsNotNull();
     }
 
-    [Fact]
-    public void CreateTestLoggerInformationLogLevel()
+    [Test]
+    public async Task CreateTestLoggerInformationLogLevel()
     {
         //Arrange
         //Act
-        var loggerString = testOutputHelper.CreateTestLogger<string>(LogLevel.Information);
+        var loggerString = TestContext.Current.CreateTestLogger<string>(LogLevel.Information);
 
         //Assert
-        Assert.NotNull(loggerString);
+        await Assert.That(loggerString).IsNotNull();
     }
 
-    [Fact]
-    public void CreateTestLoggerWarningLogLevel()
+    [Test]
+    public async Task CreateTestLoggerWarningLogLevel()
     {
         //Arrange
         //Act
-        var loggerString = testOutputHelper.CreateTestLogger<string>(LogLevel.Warning);
+        var loggerString = TestContext.Current.CreateTestLogger<string>(LogLevel.Warning);
 
         //Assert
-        Assert.NotNull(loggerString);
+        await Assert.That(loggerString).IsNotNull();
     }
 
-    [Fact]
-    public void CreateTestLoggerErrorLogLevel()
+    [Test]
+    public async Task CreateTestLoggerErrorLogLevel()
     {
         //Arrange
         //Act
-        var loggerString = testOutputHelper.CreateTestLogger<string>(LogLevel.Error);
+        var loggerString = TestContext.Current.CreateTestLogger<string>(LogLevel.Error);
 
         //Assert
-        Assert.NotNull(loggerString);
+        await Assert.That(loggerString).IsNotNull();
     }
 
-    [Fact]
-    public void CreateTestLoggerCriticalLogLevel()
+    [Test]
+    public async Task CreateTestLoggerCriticalLogLevel()
     {
         //Arrange
         //Act
-        var loggerString = testOutputHelper.CreateTestLogger<string>(LogLevel.Critical);
+        var loggerString = TestContext.Current.CreateTestLogger<string>(LogLevel.Critical);
 
         //Assert
-        Assert.NotNull(loggerString);
+        await Assert.That(loggerString).IsNotNull();
     }
 
-    [Fact]
-    public void CreateTestLoggerNoneLogLevel()
+    [Test]
+    public async Task CreateTestLoggerNoneLogLevel()
     {
         //Arrange
         //Act
-        var loggerString = testOutputHelper.CreateTestLogger<string>(LogLevel.None);
+        var loggerString = TestContext.Current.CreateTestLogger<string>(LogLevel.None);
 
         //Assert
-        Assert.NotNull(loggerString);
+        await Assert.That(loggerString).IsNotNull();
     }
 }

@@ -15,13 +15,13 @@ public static class TestOutputJsonExtensions
     /// <remarks>
     /// If <paramref name="options"/> is not provided, the default <see cref="JsonSerializerOptions"/> will be used.
     /// </remarks>
-    public static void WriteJson<T>(this ITestOutputHelper outputHelper, T? source, JsonSerializerOptions? options = null) => outputHelper.WriteLine(options == null ? JsonSerializer.Serialize(source, JsonSerializerOptions) : JsonSerializer.Serialize(source, options));
+    public static void WriteJson<T>(this TestContext? outputHelper, T? source, JsonSerializerOptions? options = null) => outputHelper?.OutputWriter.WriteLine(options == null ? JsonSerializer.Serialize(source, JsonSerializerOptions) : JsonSerializer.Serialize(source, options));
 
     /// <summary>
     /// Gets the default JsonSerializerOptions.
     /// </summary>
     /// <returns>The default JsonSerializerOptions.</returns>
-    public static JsonSerializerOptions GetDefaultJsonSerializerOptions(this ITestOutputHelper _) => JsonSerializerOptions;
+    public static JsonSerializerOptions GetDefaultJsonSerializerOptions(this TestContext? _) => JsonSerializerOptions;
     
     private static JsonSerializerOptions JsonSerializerOptions => new() { Converters = { new JsonStringEnumConverter() }, WriteIndented = true, ReferenceHandler = ReferenceHandler.IgnoreCycles, PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 }

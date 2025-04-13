@@ -3,16 +3,14 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
-using Xunit;
-using Xunit.Abstractions;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Frank.Testing.TestBases;
 
 /// <summary>
 /// Base class for tests that require a host application to be started and stopped for testing like integration tests using HostedServices or background services in the host application
 /// </summary>
-public abstract class HostApplicationTestBase : IAsyncLifetime
+public abstract class HostApplicationTestBase : IAsyncDisposable
 {
     private readonly HostApplicationBuilder _hostApplicationBuilder;
     private IHost? _host;
@@ -23,14 +21,13 @@ public abstract class HostApplicationTestBase : IAsyncLifetime
     /// <summary>
     /// Creates a new instance of <see cref="HostApplicationTestBase"/> with the specified logger provider and log level
     /// </summary>
-    /// <param name="outputHelper"></param>
     /// <param name="logLevel"></param>
     /// <param name="loggerProvider"></param>
-    protected HostApplicationTestBase(ITestOutputHelper outputHelper, LogLevel logLevel = LogLevel.Error, ILoggerProvider? loggerProvider = null)
+    protected HostApplicationTestBase(LogLevel logLevel = LogLevel.Error, ILoggerProvider? loggerProvider = null)
     {
         _hostApplicationBuilder = Host.CreateApplicationBuilder();
-        _hostApplicationBuilder.Logging.ClearProviders().AddDebug().AddProvider(outputHelper.CreateTestLoggerProvider()).SetMinimumLevel(logLevel);
-        
+        _hostApplicationBuilder.Logging.ClearProviders().AddDebug().AddProvider(TestContext.Current?.CreateTestLoggerProvider() ?? NullLoggerProvider.Instance).SetMinimumLevel(logLevel);
+
         if (loggerProvider != null)
         {
             _hostApplicationBuilder.Logging.AddProvider(loggerProvider);
@@ -49,7 +46,6 @@ public abstract class HostApplicationTestBase : IAsyncLifetime
     /// <param name="builder"></param>
     protected virtual async Task SetupAsync(HostApplicationBuilder builder) => await Task.CompletedTask;
 
-    /// <inheritdoc />
     public async Task InitializeAsync()
     {
         await SetupAsync(_hostApplicationBuilder);
@@ -58,13 +54,30 @@ public abstract class HostApplicationTestBase : IAsyncLifetime
         _scope = _host.Services.CreateScope();
         _initialized = true;
     }
-    
-    /// <inheritdoc />
-    public async Task DisposeAsync()
+
+    public async ValueTask DisposeAsync()
     {
         await _cancellationTokenSource.CancelAsync();
         await _host?.StopAsync()!;
         await _host.WaitForShutdownAsync();
         _host.Dispose();
+    }
+    
+    public async Task StartAsync()
+    {
+        if (_host == null)
+        {
+            throw new InvalidOperationException("Host not initialized yet.");
+        }
+        await _host.StartAsync(_cancellationTokenSource.Token);
+    }
+    
+    public async Task StopAsync()
+    {
+        if (_host == null)
+        {
+            throw new InvalidOperationException("Host not initialized yet.");
+        }
+        await _host.StopAsync(_cancellationTokenSource.Token);
     }
 }

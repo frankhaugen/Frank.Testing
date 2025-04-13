@@ -9,16 +9,14 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
-using Xunit;
-using Xunit.Abstractions;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Frank.Testing.TestBases;
 
 /// <summary>
 /// The base class for web application tests that uses the <see cref="WebApplication"/> and <see cref="WebApplicationBuilder"/> to setup and run the web application for testing, and provides the <see cref="GetTestClient"/> to make requests to the web application using HttpClient
 /// </summary>
-public abstract class WebApplicationTestBase : IAsyncLifetime
+public class WebApplicationTestBase : IAsyncDisposable
 {
     private readonly WebApplicationBuilder _hostApplicationBuilder;
     private WebApplication? _application;
@@ -32,10 +30,10 @@ public abstract class WebApplicationTestBase : IAsyncLifetime
     /// <param name="outputHelper"></param>
     /// <param name="logLevel"></param>
     /// <param name="loggerProvider"></param>
-    protected WebApplicationTestBase(ITestOutputHelper outputHelper, LogLevel logLevel = LogLevel.Error, ILoggerProvider? loggerProvider = null)
+    protected WebApplicationTestBase(LogLevel logLevel = LogLevel.Error, ILoggerProvider? loggerProvider = null)
     {
         _hostApplicationBuilder = WebApplication.CreateBuilder();
-        _hostApplicationBuilder.Logging.ClearProviders().AddDebug().AddProvider(outputHelper.CreateTestLoggerProvider()).SetMinimumLevel(logLevel);
+        _hostApplicationBuilder.Logging.ClearProviders().AddDebug().AddProvider(TestContext.Current?.CreateTestLoggerProvider() ?? NullLoggerProvider.Instance).SetMinimumLevel(logLevel);
         
         if (loggerProvider != null)
         {
@@ -83,7 +81,6 @@ public abstract class WebApplicationTestBase : IAsyncLifetime
     /// </summary>
     protected IEnumerable<string> GetEndpointRoutes => GetEndpoints.Select(e => e).Cast<RouteEndpoint>().Select(e => e.RoutePattern.RawText)!;
     
-    /// <inheritdoc />
     public async Task InitializeAsync()
     {
         await SetupAsync(_hostApplicationBuilder);
@@ -98,11 +95,28 @@ public abstract class WebApplicationTestBase : IAsyncLifetime
         _initialized = true;
     }
 
-    /// <inheritdoc />
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         await _cancellationTokenSource.CancelAsync();
         await _application?.StopAsync()!;
         await _application.WaitForShutdownAsync();
+    }
+    
+    public async Task StartAsync()
+    {
+        if (_application == null)
+        {
+            throw new InvalidOperationException("The host has not been initialized yet.");
+        }
+        await _application.StartAsync(_cancellationTokenSource.Token);
+    }
+    
+    public async Task StopAsync()
+    {
+        if (_application == null)
+        {
+            throw new InvalidOperationException("The host has not been initialized yet.");
+        }
+        await _application.StopAsync(_cancellationTokenSource.Token);
     }
 }

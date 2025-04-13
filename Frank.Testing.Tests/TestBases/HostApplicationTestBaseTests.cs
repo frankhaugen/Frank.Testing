@@ -9,12 +9,19 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-using Xunit.Abstractions;
-
 namespace Frank.Testing.Tests.TestBases;
 
-public class HostApplicationTestBaseTests(ITestOutputHelper outputHelper) : HostApplicationTestBase(outputHelper, loggerProvider: new SimpleTestLoggerProvider(outputHelper, Options.Create(new LoggerFilterOptions())))
+public class HostApplicationTestBaseTests : HostApplicationTestBase
 {
+    [Before(HookType.Test)]
+    public virtual void BeforeEveryTest()
+    {
+        // This is run before every test
+        // You can use this to set up any test-specific state
+        // For example, you could set up a mock service or a test database
+        _ = StartAsync();
+    }
+    
     protected override Task SetupAsync(HostApplicationBuilder builder)
     {
         builder.Services.AddHostedService<TestService>();
@@ -22,13 +29,13 @@ public class HostApplicationTestBaseTests(ITestOutputHelper outputHelper) : Host
         return Task.CompletedTask;
     }
 
-    [Fact]
+    [Test]
     public async Task Test()
     {
         await Task.Delay(1500);
     }
     
-    [Fact]
+    [Test]
     public void Test2()
     {
         var service = GetServices.GetService<TestService2>();

@@ -6,7 +6,7 @@ namespace Xunit.Abstractions;
 
 public static class TestOutputXmlExtensions
 {
-    public static void WriteXml<T>(this ITestOutputHelper outputHelper, T source, XmlWriterSettings? xmlWriterSettings = null)
+    public static void WriteXml<T>(this TestContext? outputHelper, T source, XmlWriterSettings? xmlWriterSettings = null)
     {
         var settings = xmlWriterSettings ?? XmlWriterSettings;
         
@@ -14,7 +14,7 @@ public static class TestOutputXmlExtensions
         using var xmlWriter = XmlWriter.Create(textWriter, settings);
         var xmlSerializer = new XmlSerializerFactory().CreateSerializer(typeof(T));
         xmlSerializer.Serialize(xmlWriter, source, new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty }));
-        outputHelper.WriteLine(textWriter.ToString());
+        outputHelper?.OutputWriter.WriteLine(textWriter.ToString());
     }
 
     private static XmlWriterSettings XmlWriterSettings => new()
