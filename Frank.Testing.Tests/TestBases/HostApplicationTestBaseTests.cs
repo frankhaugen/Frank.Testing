@@ -16,10 +16,8 @@ public class HostApplicationTestBaseTests : HostApplicationTestBase
     [Before(HookType.Test)]
     public virtual void BeforeEveryTest()
     {
-        // This is run before every test
-        // You can use this to set up any test-specific state
-        // For example, you could set up a mock service or a test database
-        _ = StartAsync();
+        InitializeAsync().GetAwaiter().GetResult();
+        StartAsync().GetAwaiter().GetResult();
     }
     
     protected override Task SetupAsync(HostApplicationBuilder builder)

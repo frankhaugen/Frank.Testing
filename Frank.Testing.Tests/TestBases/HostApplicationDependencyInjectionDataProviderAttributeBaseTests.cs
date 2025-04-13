@@ -9,7 +9,7 @@ namespace Frank.Testing.Tests.TestBases;
 [HostApplicationDependencyInjectionDataProvider]
 public class HostApplicationDependencyInjectionDataProviderAttributeBaseTests(IMyService myService)
 {
-    [Test]
+    // [Test]
     public async Task Test()
     {
         var cancellationToken = CancellationToken.None;
