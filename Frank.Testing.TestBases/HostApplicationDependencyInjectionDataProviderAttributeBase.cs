@@ -1,6 +1,4 @@
-﻿using Frank.Testing.Logging;
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -26,7 +24,7 @@ public abstract class HostApplicationDependencyInjectionDataProviderAttributeBas
     {
         var builder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder();
         builder = Setup(builder);
-        builder.Logging.AddDebug().AddSimpleTestLogger();
+        builder.Logging.AddDebug();
         return builder.Build();
     }
     

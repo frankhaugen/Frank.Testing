@@ -1,6 +1,4 @@
-﻿using Frank.Testing.Logging;
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -26,7 +24,7 @@ public abstract class HostApplicationTestBase : IAsyncDisposable
     protected HostApplicationTestBase(LogLevel logLevel = LogLevel.Error, ILoggerProvider? loggerProvider = null)
     {
         _hostApplicationBuilder = Host.CreateApplicationBuilder();
-        _hostApplicationBuilder.Logging.ClearProviders().AddDebug().AddProvider(TestContext.Current?.CreateTestLoggerProvider() ?? NullLoggerProvider.Instance).SetMinimumLevel(logLevel);
+        _hostApplicationBuilder.Logging.ClearProviders().AddDebug().SetMinimumLevel(logLevel);
 
         if (loggerProvider != null)
         {

@@ -1,7 +1,5 @@
 using System.Net;
 
-using Frank.Testing.Logging;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,7 +7,6 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Frank.Testing.TestBases;
 
@@ -33,7 +30,7 @@ public class WebApplicationTestBase : IAsyncDisposable
     protected WebApplicationTestBase(LogLevel logLevel = LogLevel.Error, ILoggerProvider? loggerProvider = null)
     {
         _hostApplicationBuilder = WebApplication.CreateBuilder();
-        _hostApplicationBuilder.Logging.ClearProviders().AddDebug().AddProvider(TestContext.Current?.CreateTestLoggerProvider() ?? NullLoggerProvider.Instance).SetMinimumLevel(logLevel);
+        _hostApplicationBuilder.Logging.ClearProviders().AddDebug().SetMinimumLevel(logLevel);
         
         if (loggerProvider != null)
         {
