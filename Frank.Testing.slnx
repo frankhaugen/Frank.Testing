@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="icon.png" />
+    <File Path="LICENSE" />
+    <File Path="nuget.config" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="Frank.Testing.Logging/Frank.Testing.Logging.csproj" />
+  <Project Path="Frank.Testing.TestBases/Frank.Testing.TestBases.csproj" />
+  <Project Path="Frank.Testing.Testcontainers/Frank.Testing.Testcontainers.csproj" />
+  <Project Path="Frank.Testing.TestOutputExtensions/Frank.Testing.TestOutputExtensions.csproj" />
+  <Project Path="Frank.Testing.Tests/Frank.Testing.Tests.csproj" />
+  <Project Path="Frank.Testing.TestServer/Frank.Testing.TestServer.csproj" />
+</Solution>
