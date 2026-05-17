@@ -1,3 +1,5 @@
+> **Moved to Novolis:** This library is superseded by [\`Novolis.Testing.TUnit\`](https://www.nuget.org/packages/Novolis.Testing.TUnit) (see also `Novolis.Testing.Logging`, `Novolis.Testing.TestBases`, `Novolis.Testing.Testcontainers`, `Novolis.Testing.TestServer`) from [novolis-testing](https://github.com/Novolis-Platform/novolis-testing). This repository is archived; do not add features here.
+
 # Frank.Testing
 
 A set of nugets to allow for easier testing of dotnet code using xUnit
